@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">அண்ட்ராய்டு பயிற்சி</string>
+    <string name="edit_message">ஒரு செய்தியை உள்ளிடவும்</string>
+    <string name="button_text">அனுப்பு</string>
+    <string name="welcome_text">வணக்கம் உலகமே ..!!</string>
+    <string name="english">ஆங்கிலம்</string>
+    <string name="tamil">தமிழ்</string>
+</resources>

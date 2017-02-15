@@ -1,10 +1,12 @@
-package application.arkthepro.com.androidtraining;
+package application.arkthepro.com.androidtraining.BuildingYourFirstApp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import application.arkthepro.com.androidtraining.R;
 
 public class DisplayMessage extends AppCompatActivity {
 

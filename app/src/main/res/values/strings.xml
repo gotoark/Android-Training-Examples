@@ -2,4 +2,7 @@
     <string name="app_name">AndroidTraining</string>
     <string name="edit_message">Enter a Message</string>
     <string name="button_text">Send</string>
+    <string name="welcome_text">Hello World..!!</string>
+    <string name="english">English</string>
+    <string name="tamil">Tamil</string>
 </resources>

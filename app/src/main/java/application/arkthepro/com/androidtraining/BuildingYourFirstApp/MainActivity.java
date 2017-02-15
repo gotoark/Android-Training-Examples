@@ -1,10 +1,13 @@
-package application.arkthepro.com.androidtraining;
+package application.arkthepro.com.androidtraining.BuildingYourFirstApp;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import application.arkthepro.com.androidtraining.BuildingYourFirstApp.DisplayMessage;
+import application.arkthepro.com.androidtraining.R;
 
 public class MainActivity extends AppCompatActivity {
 public static final String MSG="messageKey";
