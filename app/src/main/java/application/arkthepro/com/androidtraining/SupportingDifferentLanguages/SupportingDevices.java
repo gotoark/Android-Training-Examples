@@ -1,4 +1,4 @@
-package application.arkthepro.com.androidtraining;
+package application.arkthepro.com.androidtraining.SupportingDifferentLanguages;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import java.util.Locale;
+
+import application.arkthepro.com.androidtraining.R;
 
 public class SupportingDevices extends AppCompatActivity {
 

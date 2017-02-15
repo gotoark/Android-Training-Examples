@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="application.arkthepro.com.androidtraining.SupportingDevices">
+    tools:context=".SupportingDifferentLanguages.SupportingDevices">
     <TextView
         android:layout_gravity="center"
         android:layout_width="wrap_content"

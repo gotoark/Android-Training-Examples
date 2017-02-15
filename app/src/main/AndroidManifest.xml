@@ -8,17 +8,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BuildingYourFirstApp.MainActivity">
+        <activity android:name=".BuildingYourFirstApp.MainActivity"></activity>
+        <activity android:name=".BuildingYourFirstApp.DisplayMessage" />
+        <activity android:name=".SupportingDifferentLanguages.SupportingDevices">
 
         </activity>
-        <activity android:name=".BuildingYourFirstApp.DisplayMessage" />
-        <activity android:name=".SupportingDevices">
+        <activity android:name=".Building_Dynamic_UI_with_Fragments.Fragments">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
