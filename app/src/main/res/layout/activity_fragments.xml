@@ -9,12 +9,18 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context=".Building_Dynamic_UI_with_Fragments.Fragments">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Static Fragments"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 <fragment
     android:id="@+id/title"
     android:name="application.arkthepro.com.androidtraining.Building_Dynamic_UI_with_Fragments.Title"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
 </fragment>
     <fragment
         android:id="@+id/Content"
@@ -23,4 +29,22 @@
         android:layout_height="wrap_content">
 
     </fragment>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Dynamic Fragments"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+    <FrameLayout
+        android:id="@+id/fragmentcontainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/swap_Fragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Swap Fragments"/>
 </LinearLayout>
