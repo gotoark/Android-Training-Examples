@@ -13,8 +13,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Static Fragments"
+        android:text="1.Static Fragments"
         android:textSize="20dp"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
 <fragment
     android:id="@+id/title"
@@ -33,8 +34,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Dynamic Fragments"
+        android:text="2.Dynamic Fragments"
         android:textSize="20dp"
+        android:textColor="@color/black"
         android:textStyle="bold"/>
     <FrameLayout
         android:id="@+id/fragmentcontainer"
@@ -47,4 +49,35 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Swap Fragments"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="3.Communicating Bw Fragments"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:weightSum="100">
+    <fragment
+        android:id="@+id/fragment_list"
+        android:name="application.arkthepro.com.androidtraining.Building_Dynamic_UI_with_Fragments.TitleFragment_List"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        >
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_list_explained"
+        android:name="application.arkthepro.com.androidtraining.Building_Dynamic_UI_with_Fragments.List_Explained"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="50"
+        >
+    </fragment>
+</LinearLayout>
+
+
 </LinearLayout>
