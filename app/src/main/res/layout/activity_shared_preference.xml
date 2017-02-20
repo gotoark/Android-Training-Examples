@@ -35,4 +35,27 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Update Preference"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_addasfile"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save as File"/>
+        <Button
+            android:id="@+id/btn_readfile"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View File Content"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/filecontent"
+        android:text="File Content Will be Displayed Here"/>
 </LinearLayout>
