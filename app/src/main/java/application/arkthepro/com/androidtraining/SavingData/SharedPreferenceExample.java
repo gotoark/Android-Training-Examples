@@ -78,15 +78,18 @@ public class SharedPreferenceExample extends AppCompatActivity {
                     if(!file.exists()){
                         file.createNewFile();
                         Log.d("FILE", "File Created Successfully");
+                        Toast.makeText(getApplicationContext(), "File Created Successfully with name:"+file.getName(), Toast.LENGTH_SHORT).show();
                     }else{
                         Log.d("FILE", "File Already Exists with name :"+file.getName());
+                        Toast.makeText(getApplicationContext(), "File already Exists with name"+file.getName(), Toast.LENGTH_SHORT).show();
                     }
                     FileWriter fw=new FileWriter(file.getAbsoluteFile());
                     BufferedWriter bw=new BufferedWriter(fw);
                     String fcontent=editText.getText().toString();
-                    Log.e("FILE", "-----------------------------------Writed: " + fcontent);
+                    Log.e("FILE", "-----------------------------------Writed Content: " + fcontent);
                     bw.write(fcontent);
                     bw.close();
+                    Toast.makeText(getApplicationContext(), "File Value Updated", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("FILE RESULT", "Failed to Create File");
