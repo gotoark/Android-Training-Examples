@@ -67,7 +67,19 @@ public class Sending_the_User_to_Another_App extends AppCompatActivity {
                 emailIntent.putExtra(Intent.EXTRA_TEXT, "Hey Rajesh..!! Just Tried Your App. Thanks a Lot..!!");
                 emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("content://path/to/email/attachment"));
 // You can also attach multiple items by passing an ArrayList of Uris
-                startActivity(emailIntent);
+
+         /* Here User Cannot Select Default App */
+// Always use string resources for UI text.
+// This says something like "Share this photo with"
+                String title = getResources().getString(R.string.chooser_title);
+// Create intent to show chooser
+                Intent chooser = Intent.createChooser(emailIntent, title);
+
+// Verify the intent will resolve to at least one activity
+                if (emailIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(chooser);
+                }
+
 
             }
         });

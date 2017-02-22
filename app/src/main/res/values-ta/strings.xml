@@ -5,4 +5,5 @@
     <string name="welcome_text">வணக்கம் உலகமே ..!!</string>
     <string name="english">ஆங்கிலம்</string>
     <string name="tamil">தமிழ்</string>
+    <string name="chooser_title">Send Email via</string>
 </resources>
