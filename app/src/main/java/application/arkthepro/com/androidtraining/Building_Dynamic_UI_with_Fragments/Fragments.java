@@ -8,36 +8,37 @@ import android.widget.Button;
 import application.arkthepro.com.androidtraining.R;
 
 public class Fragments extends FragmentActivity implements TitleFragment_List.OnListItemClickLisenerinterface {
-    static boolean flag=false;
+    static boolean flag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragments);
-        Button swap_Fragment=(Button)findViewById(R.id.swap_Fragment);
+        Button swap_Fragment = (Button) findViewById(R.id.swap_Fragment);
         //Controlling Fragments
-       final HelloFragment helloFragment=new HelloFragment();
-       final GoodByeFragment goodByeFragment=new GoodByeFragment();
+        final HelloFragment helloFragment = new HelloFragment();
+        final GoodByeFragment goodByeFragment = new GoodByeFragment();
         //Set default Fragment
-        getSupportFragmentManager().beginTransaction().add(R.id.fragmentcontainer,helloFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragmentcontainer, helloFragment).commit();
         swap_Fragment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(flag){
+                if (flag) {
                     getSupportFragmentManager()
                             .beginTransaction()
                             .setCustomAnimations(R.anim.pop_enter, R.anim.pop_exit)
-                            .replace(R.id.fragmentcontainer,helloFragment)
+                            .replace(R.id.fragmentcontainer, helloFragment)
                             .addToBackStack(null)
                             .commit();
-                    flag=false;
-                }else{
+                    flag = false;
+                } else {
                     getSupportFragmentManager()
                             .beginTransaction()
-                            .setCustomAnimations(R.anim.enter,R.anim.exit)
+                            .setCustomAnimations(R.anim.enter, R.anim.exit)
                             .replace(R.id.fragmentcontainer, goodByeFragment)
                             .addToBackStack(null)
                             .commit();
-                    flag=true;
+                    flag = true;
                 }
 
             }
@@ -46,7 +47,7 @@ public class Fragments extends FragmentActivity implements TitleFragment_List.On
 
     @Override
     public void OnListItemClicked(long id) {
-        List_Explained list_explained=(List_Explained)getSupportFragmentManager().findFragmentById(R.id.fragment_list_explained);
-        list_explained.setTv(""+(id+1));
+        List_Explained list_explained = (List_Explained) getSupportFragmentManager().findFragmentById(R.id.fragment_list_explained);
+        list_explained.setTv("" + (id + 1));
     }
 }

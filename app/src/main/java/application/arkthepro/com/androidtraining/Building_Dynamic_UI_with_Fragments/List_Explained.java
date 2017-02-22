@@ -29,5 +29,4 @@ public class List_Explained extends Fragment  {
 
 
 
-
 }
