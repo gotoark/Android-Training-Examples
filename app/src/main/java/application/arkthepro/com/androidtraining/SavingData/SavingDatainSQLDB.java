@@ -211,6 +211,14 @@ public class SavingDatainSQLDB extends AppCompatActivity {
 
 
     }
+    @Override
+    protected void onDestroy() {
+        dbUtil.close();
+        super.onDestroy();
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
