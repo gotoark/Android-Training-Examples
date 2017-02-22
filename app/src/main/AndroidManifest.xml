@@ -14,18 +14,18 @@
         <activity android:name=".BuildingYourFirstApp.MainActivity" />
         <activity android:name=".BuildingYourFirstApp.DisplayMessage" />
         <activity android:name=".SupportingDifferentLanguages.SupportingDevices" />
-        <activity android:name=".Building_Dynamic_UI_with_Fragments.Fragments"></activity>
+        <activity android:name=".Building_Dynamic_UI_with_Fragments.Fragments" />
         <activity android:name=".Building_Dynamic_UI_with_Fragments.TitleFragment_List" />
-        <activity android:name=".SavingData.SharedPreferenceExample">
-        </activity>
+        <activity android:name=".SavingData.SharedPreferenceExample"></activity>
         <activity android:name=".SavingData.SavingDatainSQLDB">
 
+        </activity>
+        <activity android:name=".InteractingWithOtherApps.Sending_the_User_to_Another_App">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 
