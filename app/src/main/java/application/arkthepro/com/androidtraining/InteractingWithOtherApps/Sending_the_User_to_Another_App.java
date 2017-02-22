@@ -1,14 +1,18 @@
 package application.arkthepro.com.androidtraining.InteractingWithOtherApps;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.provider.CalendarContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.List;
 
 import application.arkthepro.com.androidtraining.R;
 
@@ -85,8 +89,18 @@ public class Sending_the_User_to_Another_App extends AppCompatActivity {
             public void onClick(View v) {
                 Intent PlayStoreintent = new Intent(Intent.ACTION_VIEW);
                 PlayStoreintent.setData(Uri.parse("market://details?id=com.example.android"));
-                startActivity(PlayStoreintent);
+                //Caution: If you invoke an intent and there is no app available on the device that can handle the intent, your app will crash.
+                //Verify There is an App to Receive the Intent
+                PackageManager packageManager = getPackageManager();
+                List<ResolveInfo> activities = packageManager.queryIntentActivities(PlayStoreintent, 0);
+                boolean isIntentSafe = activities.size() > 0;
+                if(isIntentSafe){
+                    startActivity(PlayStoreintent);
+                }else {
+                    Toast.makeText(getApplicationContext(),"Sorry PlayStore Not Installed",Toast.LENGTH_SHORT).show();
+                };;
             }
-        });
+        })
+;
     }
 }
