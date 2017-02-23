@@ -21,7 +21,7 @@ public class DBUtil extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
 
     //DB Name
-    public static final String DB_NAME = "UsersDB";
+    public static final String DB_NAME = "Users2";
 
     //Table Name
     public static final String TABLE_NAME = "users_table";
@@ -31,17 +31,21 @@ public class DBUtil extends SQLiteOpenHelper {
     public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_NUMBER = "phone_number";
+    public static final String KEY_IMAGE = "profilepic";
 
     public DBUtil(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
+
     }
+
 
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Create TABLE
         Log.d("DB RESULT", "---------------------------------" + "Oncreate DBUTIL ");
-        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_NUMBER + " VARCHAR " + ")";
+      //  String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_NUMBER + " VARCHAR" + ")";
+        String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" + KEY_ID + " INTEGER PRIMARY KEY," + KEY_NAME + " TEXT," + KEY_NUMBER + " VARCHAR," +KEY_IMAGE+" BLOB NOT NULL)";
         Log.d("DB RESULT", "---------------------------------" + CREATE_TABLE);
         try {
             db.execSQL(CREATE_TABLE);
@@ -88,18 +92,21 @@ public class DBUtil extends SQLiteOpenHelper {
     public void createUser(UserDetails user) {
         SQLiteDatabase db = this.getReadableDatabase();
         //    onCreate(db);
+        Log.d("DB RESULT", "---------------------------------DB PATH" + db.getPath());
         Log.d("DB RESULT", "---------------------------------" + "Trying to Enter DB");
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, user.getName());
         values.put(KEY_NUMBER, user.getphoneNumber());
+        values.put(KEY_IMAGE, user.getprofilepic());
         db.insert(TABLE_NAME, null, values);
+        Log.d("DB RESULT", "---------------------------------" + "User Inserted Success Fully");
         db.close();
     }
 
     public UserDetails readUser(String phone_number) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_NAME,
-                new String[]{KEY_ID, KEY_NAME, KEY_NUMBER},
+                new String[]{KEY_ID, KEY_NAME, KEY_NUMBER,KEY_IMAGE},
                 KEY_NUMBER + "=?", new String[]{String.valueOf(phone_number)},
                 null,
                 null,
@@ -108,7 +115,7 @@ public class DBUtil extends SQLiteOpenHelper {
         if (cursor != null) {
             cursor.moveToFirst();
         }
-        UserDetails userDetails = new UserDetails(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2));
+        UserDetails userDetails = new UserDetails(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2),cursor.getBlob(3));
         cursor.close();
         db.close();
         return userDetails;
@@ -128,6 +135,7 @@ public class DBUtil extends SQLiteOpenHelper {
                 userDetails.setId(Integer.parseInt(cursor.getString(0)));
                 userDetails.setName(cursor.getString(1));
                 userDetails.setPhoneNumber(cursor.getString(2));
+                userDetails.setProfilepic(cursor.getBlob(3));
                 //Addding contact to list
                 userDetailsList.add(userDetails);
             } while (cursor.moveToNext());
@@ -147,11 +155,12 @@ public class DBUtil extends SQLiteOpenHelper {
         return cursor.getCount();
     }
 
-    public int updateUser(String name, String number) {
+    public int updateUser(String name, String number,byte[] profilepic) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, name);
         values.put(KEY_NUMBER, number);
+        values.put(KEY_IMAGE, profilepic);
         Log.d("DB RESULT", "---------------------------------" + "Table Values Updated");
         return db.update(TABLE_NAME, values, KEY_NUMBER + " =?", new String[]{String.valueOf(number)});
     }

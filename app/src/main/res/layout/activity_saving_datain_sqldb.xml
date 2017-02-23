@@ -45,6 +45,18 @@
             android:hint="Enter User Mobile Number here"/>
     </LinearLayout>
     <LinearLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:src="@drawable/placeholder_100x100"
+            android:id="@+id/profilepic_selector"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:layout_gravity="center"
         android:gravity="center"
         android:layout_width="wrap_content"

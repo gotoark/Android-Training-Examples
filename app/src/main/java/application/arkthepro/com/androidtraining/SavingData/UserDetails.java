@@ -7,18 +7,21 @@ public class UserDetails {
     String name;
     String phonenumber;
     int id;
+    byte[] profilepic;
     //Empty Constructor
     public  UserDetails(){
 
     }
-    public UserDetails(int id,String name,String phonenumber){
+    public UserDetails(int id,String name,String phonenumber,byte[] profilepic){
         this.name=name;
         this.phonenumber=phonenumber;
         this.id=id;
+        this.profilepic=profilepic;
     }
-    public  UserDetails(String name,String phonenumber){
+    public  UserDetails(String name,String phonenumber,byte[] profilepic){
        this.name=name;
         this.phonenumber=phonenumber;
+        this.profilepic=profilepic;
     }
     //GetName
     public String getName(){
@@ -43,8 +46,18 @@ public void setName(String name){
     public int getId(){
         return this.id;
     }
+    //Set Id
     public void setId(int id){
         this.id=id;
+    }
+
+     //Get Profile Pic
+    public byte[] getprofilepic(){
+        return this.profilepic;
+    }
+    //Set Pic
+    public void setProfilepic(byte[] profilepic){
+       this.profilepic=profilepic;
     }
 
     

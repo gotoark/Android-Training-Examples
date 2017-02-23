@@ -39,5 +39,9 @@
         android:layout_height="wrap_content"
         android:textSize="20dp"
         android:text="Number"/>
+    <ImageButton
+        android:id="@+id/iv_profilepic"
+        android:layout_width="100dp"
+        android:layout_height="100dp" />
 
 </LinearLayout>
