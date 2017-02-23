@@ -21,7 +21,7 @@ public class DBUtil extends SQLiteOpenHelper {
     private static final int DB_VERSION = 1;
 
     //DB Name
-    public static final String DB_NAME = "Users2";
+    public static final String DB_NAME = "UserDB";
 
     //Table Name
     public static final String TABLE_NAME = "users_table";

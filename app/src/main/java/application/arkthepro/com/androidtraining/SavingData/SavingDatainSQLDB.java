@@ -116,7 +116,7 @@ public class SavingDatainSQLDB extends AppCompatActivity{
                     username.setError("Please Enter Name");
                 } else if (number.getText().toString().equals("")) {
                     number.setError("Please Enter Mobile Number");
-                }else {
+                } else {
                     // profilepic_in_Bytes=ImageUtil.getImageBytes(ImageUtil.getImage(profile_pic.getBackground()));
                     dbUtil.createUser(new UserDetails(username.getText().toString(), number.getText().toString(), ImageUtil.getImageBytes(ImageUtil.getImage(profilepic_in_Bytes))));
                     updateList();
@@ -227,7 +227,7 @@ public class SavingDatainSQLDB extends AppCompatActivity{
         private ArrayList<String> al_name;
         private ArrayList<String> al_number;
         private ArrayList<Integer> al_id;
-        private ArrayList<byte[]> al_images ;
+        private ArrayList<byte[]> al_images_inBytes ;
         private LayoutInflater layoutinflater = null;
         Users_ViewHolder user_modal;
 
@@ -244,7 +244,7 @@ public class SavingDatainSQLDB extends AppCompatActivity{
             this.al_name = al_name;
             this.al_number = al_number;
             this.al_id = al_id;
-            this.al_images = al_profilepic;
+            this.al_images_inBytes = al_profilepic;
             layoutinflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             Log.i("RESULT", "-----------------------UserAdapter Initialized");
 
@@ -264,7 +264,7 @@ public class SavingDatainSQLDB extends AppCompatActivity{
             user_modal.tv_username.setText(al_name.get(position));
             user_modal.tv_number.setText(al_number.get(position));
             user_modal.tv_id.setText("" + al_id.get(position));
-            user_modal.iv_profilepic.setImageBitmap(ImageUtil.getImage(profilepic_in_Bytes));
+            user_modal.iv_profilepic.setImageBitmap(ImageUtil.getImage(al_images_inBytes.get(position)));
             Log.i("RESULT", "-----------------------Values Assigned");
             return view;
         }
