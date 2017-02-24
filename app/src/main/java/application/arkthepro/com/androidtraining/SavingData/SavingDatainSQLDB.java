@@ -27,6 +27,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -223,7 +224,7 @@ public class SavingDatainSQLDB extends AppCompatActivity {
 
             }
         });
-
+//Enabling the contextual action mode for individual views
         delete.setOnLongClickListener(new View.OnLongClickListener() {
             // Called when the user long-clicks on someView
             public boolean onLongClick(View view) {
@@ -237,6 +238,18 @@ public class SavingDatainSQLDB extends AppCompatActivity {
                 return true;
             }
         });
+
+
+        //Creating PopUp menu
+        update.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                showPopupMenu(v);
+                return false;
+            }
+        });
+
+
 
 
     }
@@ -495,6 +508,17 @@ public class SavingDatainSQLDB extends AppCompatActivity {
             mActionMode = null;
         }
     };
+
+    //Creating PopUp Menu
+    public void showPopupMenu(View v) {
+        PopupMenu popup = new PopupMenu(this, v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.popup_menu, popup.getMenu());
+        popup.show();
+    }
+
+
+
 
     public class UserAdapter extends BaseAdapter {
         Users_ViewHolder user_modal;

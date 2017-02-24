@@ -30,4 +30,15 @@
     </menu>
 </item>
 
+    <item android:id="@+id/table_info"
+        android:title="Table Info"
+       >
+        <!-- "file" submenu -->
+        <menu>
+            <item android:id="@+id/usercount"
+                android:title="User's Count"
+                android:icon="@drawable/icon_menu_github"/>
+        </menu>
+    </item>
+
 </menu>
