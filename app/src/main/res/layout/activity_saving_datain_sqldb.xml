@@ -50,6 +50,7 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
         <ImageView
+            android:focusable="false"
             android:src="@drawable/placeholder_100x100"
             android:id="@+id/profilepic_selector"
             android:layout_width="100dp"
@@ -63,16 +64,19 @@
         android:orientation="horizontal"
         android:layout_height="wrap_content">
        <Button
+           android:focusable="false"
            android:id="@+id/btn_create"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text="CREATE"/>
         <Button
+            android:focusable="false"
             android:id="@+id/btn_delete_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="DELETE USER"/>
         <Button
+            android:focusable="false"
             android:id="@+id/btn_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,6 +84,7 @@
 
     </LinearLayout>
     <Button
+        android:focusable="false"
         android:background="@color/red"
         android:textColor="@color/white"
         android:layout_gravity="center"

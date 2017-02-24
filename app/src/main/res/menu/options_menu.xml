@@ -1,4 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ViewSource"
+        android:title="ViewSource"
+        android:icon="@drawable/ic_action_viewsource"
+        app:showAsAction="ifRoom"
+        />
+<item
+    android:id="@+id/about"
+    android:title="About"
+    android:icon="@drawable/ic_action_about"
+    app:showAsAction="ifRoom"
+    >
+  <!-- "file" submenu -->
+    <menu>
+        <item android:id="@+id/github"
+            android:title="Github"
+            android:icon="@drawable/icon_menu_github"/>
+        <item android:id="@+id/linkedin"
+            android:icon="@drawable/icon_menu_linkedin"
+            android:title="LinkedIn" />
+        <item android:id="@+id/twitter"
+            android:icon="@drawable/icon_menu_twitter"
+            android:title="Twitter" />
+        <item android:id="@+id/facebook"
+            android:icon="@drawable/icon_menu_facebook"
+            android:title="Facebook" />
+    </menu>
+</item>
 
 </menu>

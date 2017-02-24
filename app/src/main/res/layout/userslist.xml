@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:layout_height="match_parent">
     <TextView
         android:id="@+id/id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20dp"
+        android:focusable="false"
         android:textColor="@color/black"
         android:text="ID"/>
     <TextView
+        android:focusable="false"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +20,7 @@
         android:textColor="@color/black"
         android:text=":"/>
     <TextView
+        android:focusable="false"
         android:layout_marginLeft="20dp"
         android:id="@+id/tv_username"
         android:textColor="@color/black"
@@ -25,6 +29,7 @@
         android:textSize="20dp"
         android:text="Username"/>
     <TextView
+        android:focusable="false"
         android:textColor="@color/black"
         android:layout_marginLeft="20dp"
         android:layout_width="wrap_content"
@@ -32,6 +37,7 @@
         android:textSize="20dp"
         android:text=":"/>
     <TextView
+        android:focusable="false"
         android:textColor="@color/black"
         android:layout_marginLeft="20dp"
         android:id="@+id/tv_number"
@@ -40,6 +46,7 @@
         android:textSize="20dp"
         android:text="Number"/>
     <ImageButton
+        android:focusable="false"
         android:id="@+id/iv_profilepic"
         android:layout_width="100dp"
         android:layout_height="100dp" />
