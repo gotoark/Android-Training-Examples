@@ -3,42 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/ViewSource"
-        android:title="ViewSource"
         android:icon="@drawable/ic_action_viewsource"
-        app:showAsAction="ifRoom"
-        />
-<item
-    android:id="@+id/about"
-    android:title="About"
-    android:icon="@drawable/ic_action_about"
-    app:showAsAction="ifRoom"
-    >
-  <!-- "file" submenu -->
-    <menu>
-        <item android:id="@+id/github"
-            android:title="Github"
-            android:icon="@drawable/icon_menu_github"/>
-        <item android:id="@+id/linkedin"
-            android:icon="@drawable/icon_menu_linkedin"
-            android:title="LinkedIn" />
-        <item android:id="@+id/twitter"
-            android:icon="@drawable/icon_menu_twitter"
-            android:title="Twitter" />
-        <item android:id="@+id/facebook"
-            android:icon="@drawable/icon_menu_facebook"
-            android:title="Facebook" />
-    </menu>
-</item>
-
-    <item android:id="@+id/table_info"
-        android:title="Table Info"
-       >
+        android:title="ViewSource"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_action_about"
+        android:title="About"
+        app:showAsAction="ifRoom">
         <!-- "file" submenu -->
         <menu>
-            <item android:id="@+id/usercount"
-                android:title="User's Count"
-                android:icon="@drawable/icon_menu_github"/>
+            <item
+                android:id="@+id/github"
+                android:icon="@drawable/icon_menu_github"
+                android:title="Github" />
+            <item
+                android:id="@+id/linkedin"
+                android:icon="@drawable/icon_menu_linkedin"
+                android:title="LinkedIn" />
+            <item
+                android:id="@+id/twitter"
+                android:icon="@drawable/icon_menu_twitter"
+                android:title="Twitter" />
+            <item
+                android:id="@+id/facebook"
+                android:icon="@drawable/icon_menu_facebook"
+                android:title="Facebook" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/notifications"
+        android:icon="@drawable/ic_action_name"
+        android:title="More"
+        app:showAsAction="always"></item>
 
 </menu>

@@ -1,6 +1,7 @@
 package application.arkthepro.com.androidtraining.SavingData;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,10 +29,14 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.jauker.widget.BadgeView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,15 +62,84 @@ public class SavingDatainSQLDB extends AppCompatActivity {
     InputStream iStream;
     byte[] profilepic_in_Bytes;
     ActionMode mActionMode;
+    LinearLayout linearlatout;
+    PopupWindow popupWindow;
+    int userCount;
+    String badgeText;
+    int i = 0;
+    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
+
+        // Called when the action mode is created; startActionMode() was called
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            // Inflate a menu resource providing context menu items
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.actionmode_context_menu, menu);
+            return true;
+        }
+
+        // Called each time the action mode is shown. Always called after onCreateActionMode, but
+        // may be called multiple times if the mode is invalidated.
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false; // Return false if nothing is done
+        }
+
+        // Called when the user selects a contextual menu item
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    if (number.getText().toString().equals("")) {
+                        number.setError("Please Enter Mobile Number");
+                    } else {
+
+                        if (dbUtil.isExists(DBUtil.KEY_NUMBER, number.getText().toString())) {
+                            dbUtil.deleteUser(number.getText().toString());
+                            showToast("Deleted Successfully :" + number.getText().toString(), R.color.green);
+                            updateList();
+                        } else {
+                            showToast("Sry No User found with Mobile Number :" + number.getText().toString(), R.color.red);
+                        }
+
+                    }
+
+                    return true;
+                case R.id.update:
+                    if (username.getText().toString().equals("")) {
+                        username.setError("Please Enter Name");
+                    } else if (number.getText().toString().equals("")) {
+                        number.setError("Please Enter Mobile Number");
+                    } else {
+                        if (dbUtil.isExists(DBUtil.KEY_NUMBER, number.getText().toString())) {
+                            dbUtil.updateUser(username.getText().toString(), number.getText().toString(), ImageUtil.getImageBytes(ImageUtil.getImage(profilepic_in_Bytes)));
+                            showToast("Updated Successfully :" + number.getText().toString(), R.color.green);
+                            updateList();
+                        } else {
+                            showToast("Sry No User found with Mobile Number :" + number.getText().toString(), R.color.red);
+                        }
+
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Called when the user exits the action mode
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            mActionMode = null;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saving_datain_sqldb);
+        linearlatout = (LinearLayout) findViewById(R.id.linearlatout);
         //Create DB instance to access All DB CRUD operations
         userList = (ListView) findViewById(R.id.userlist);
-
-
         username = (EditText) findViewById(R.id.edit_text_username);
         number = (EditText) findViewById(R.id.edit_text_mnumber);
         create = (Button) findViewById(R.id.btn_create);
@@ -72,10 +148,25 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         delete = (Button) findViewById(R.id.btn_delete);
         profile_pic = (ImageView) findViewById(R.id.profilepic_selector);
         Log.d("DB RESULT", "Oncreate SQL CLASS");
+        username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
+            }
+        });
+        number.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
+            }
+        });
         profile_pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 //Check Permission
                 // Assume thisActivity is the current activity
                 int permissionCheck = ContextCompat.checkSelfPermission(getApplicationContext(),
@@ -111,19 +202,24 @@ public class SavingDatainSQLDB extends AppCompatActivity {
                 }
                 Log.d("Result", "-----------------------Result of permissionCheck :" + permissionCheck);
 
-
             }
         });
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 if (username.getText().toString().equals("")) {
                     username.setError("Please Enter Name");
                 } else if (number.getText().toString().equals("")) {
                     number.setError("Please Enter Mobile Number");
                 } else {
-                     //profilepic_in_Bytes=ImageUtil.getImageBytes(profile_pic.getDrawingCache());
-                    dbUtil.createUser(new UserDetails(username.getText().toString(), number.getText().toString(), ImageUtil.getImageBytes(ImageUtil.getImage(profilepic_in_Bytes))));
+                    //profilepic_in_Bytes=ImageUtil.getImageBytes(profile_pic.getDrawingCache());
+                    if(profilepic_in_Bytes!=null){
+                        dbUtil.createUser(new UserDetails(username.getText().toString(), number.getText().toString(), ImageUtil.getImageBytes(ImageUtil.getImage(profilepic_in_Bytes))));
+                    }else {
+                        showToast("Please Select Image",23);
+                    }
                     updateList();
                 }
             }
@@ -132,6 +228,8 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         delete_user.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 if (number.getText().toString().equals("")) {
                     number.setError("Please Enter Mobile Number");
                 } else {
@@ -141,7 +239,8 @@ public class SavingDatainSQLDB extends AppCompatActivity {
                         showToast("Deleted Successfully :", R.color.green);
                         updateList();
                     } else {
-                        showToast("Sry No User found with Mobile Number :" + number.getText().toString(), R.color.red);                    }
+                        showToast("Sry No User found with Mobile Number :" + number.getText().toString(), R.color.red);
+                    }
 
                 }
 
@@ -152,6 +251,8 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 if (username.getText().toString().equals("")) {
                     username.setError("Please Enter Name");
                 } else if (number.getText().toString().equals("")) {
@@ -174,6 +275,8 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 if (al_id.isEmpty()) {
                     showToast("User List is Already Empty :" + number.getText().toString(), R.color.green);
                 } else {
@@ -217,9 +320,12 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         userList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 Log.i("LIST RESULT", "-----------------------CLICKED " + position);
                 username.setText(al_name.get(position));
                 number.setText(al_number.get(position));
+                profilepic_in_Bytes = ImageUtil.getImageBytes(ImageUtil.getImage(al_images.get(position)));
                 profile_pic.setImageBitmap(ImageUtil.getImage(al_images.get(position)));
 
             }
@@ -228,6 +334,8 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         delete.setOnLongClickListener(new View.OnLongClickListener() {
             // Called when the user long-clicks on someView
             public boolean onLongClick(View view) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 if (mActionMode != null) {
                     return false;
                 }
@@ -244,14 +352,41 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         update.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (popupWindow != null)
+                    popupWindow.dismiss();
                 showPopupMenu(v);
                 return false;
             }
         });
 
 
+    }
 
+    public void updateBadgeCount() {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View CustomPopUp = layoutInflater.inflate(R.layout.custom_popup, null);
+        popupWindow = new PopupWindow(CustomPopUp, ActionBar.LayoutParams.WRAP_CONTENT,
+                ActionBar.LayoutParams.WRAP_CONTENT);
+        // Call requires API level 21
+        if (Build.VERSION.SDK_INT >= 21) {
+            popupWindow.setElevation(5.0f);
+        }
+        TextView tv_badge = (TextView) CustomPopUp.findViewById(R.id.badge);
+        BadgeView badge = new BadgeView(activity);
+        badge.setTargetView(tv_badge);
+        // badge.setBadgeCount(userCount);
+        badge.setText(badgeText);
+        //Get view of Action Bar
+        ViewGroup actionBar = getActionBar(getWindow().getDecorView());
 
+        popupWindow.showAtLocation(actionBar, Gravity.TOP | Gravity.RIGHT, 0, -70);
+        popupWindow.setAnimationStyle(R.style.Animation);
+        linearlatout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     public void updateList() {
@@ -273,7 +408,15 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         userList.clearDisappearingChildren();
         userList.setAdapter(userAdapter);
         Log.i("RESULT", "-----------------------UserAdapter Assigned");
-
+        //Set badge Count
+        if (al_name.size() <= 0) {
+            badgeText = "No Users";
+        } else {
+            userCount = al_name.size();
+            badgeText = "" + userCount;
+        }
+        if (popupWindow != null)
+            popupWindow.dismiss();
 
     }
 
@@ -345,6 +488,7 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         return true;
     }
 
+    //Creating Options Menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -370,18 +514,24 @@ public class SavingDatainSQLDB extends AppCompatActivity {
                 webaddress = "https://facebook.com/gotoark";
                 openBrwoser(webaddress);
                 return true;
+            case R.id.notifications:
+                //Remove existing window
+                if (popupWindow != null)
+                    popupWindow.dismiss();
+                //Update Badge Count
+                updateBadgeCount();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-
-    //Creating Options Menu
 
     public void openBrwoser(String webaddress) {
         Uri webpage = Uri.parse(webaddress);
         Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
         startActivity(webIntent);
     }
+    //Creating ContextMenu
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -390,13 +540,14 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.floating_context_menu, menu);
     }
-    //Creating ContextMenu
+
+
+    //Context menu in Action Mode
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         // Handle item selection
         Log.i("MENU RESULT", "-------------------------------ContextMenu Clicked");
-        String webaddress;
         switch (item.getItemId()) {
             case R.id.delete:
                 if (number.getText().toString().equals("")) {
@@ -436,79 +587,6 @@ public class SavingDatainSQLDB extends AppCompatActivity {
 
     }
 
-
-    //Context menu in Action Mode
-
-
-
-
-
-    private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
-
-        // Called when the action mode is created; startActionMode() was called
-        @Override
-        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-            // Inflate a menu resource providing context menu items
-            MenuInflater inflater = mode.getMenuInflater();
-            inflater.inflate(R.menu.actionmode_context_menu, menu);
-            return true;
-        }
-
-        // Called each time the action mode is shown. Always called after onCreateActionMode, but
-        // may be called multiple times if the mode is invalidated.
-        @Override
-        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-            return false; // Return false if nothing is done
-        }
-
-        // Called when the user selects a contextual menu item
-        @Override
-        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.delete:
-                    if (number.getText().toString().equals("")) {
-                        number.setError("Please Enter Mobile Number");
-                    } else {
-
-                        if (dbUtil.isExists(DBUtil.KEY_NUMBER, number.getText().toString())) {
-                            dbUtil.deleteUser(number.getText().toString());
-                            showToast("Deleted Successfully :" + number.getText().toString(), R.color.green);
-                            updateList();
-                        } else {
-                            showToast("Sry No User found with Mobile Number :" + number.getText().toString(), R.color.red);
-                        }
-
-                    }
-
-                    return true;
-                case R.id.update:
-                    if (username.getText().toString().equals("")) {
-                        username.setError("Please Enter Name");
-                    } else if (number.getText().toString().equals("")) {
-                        number.setError("Please Enter Mobile Number");
-                    } else {
-                        if (dbUtil.isExists(DBUtil.KEY_NUMBER, number.getText().toString())) {
-                            dbUtil.updateUser(username.getText().toString(), number.getText().toString(), ImageUtil.getImageBytes(ImageUtil.getImage(profilepic_in_Bytes)));
-                            showToast("Updated Successfully :" + number.getText().toString(), R.color.green);
-                            updateList();
-                        } else {
-                            showToast("Sry No User found with Mobile Number :" + number.getText().toString(), R.color.red);
-                        }
-
-                    }
-                    return true;
-                default:
-                    return false;
-            }
-        }
-
-        // Called when the user exits the action mode
-        @Override
-        public void onDestroyActionMode(ActionMode mode) {
-            mActionMode = null;
-        }
-    };
-
     //Creating PopUp Menu
     public void showPopupMenu(View v) {
         PopupMenu popup = new PopupMenu(this, v);
@@ -517,8 +595,37 @@ public class SavingDatainSQLDB extends AppCompatActivity {
         popup.show();
     }
 
+    //Customized Toast
+    public void showToast(String msg, int id) {
+        Toast t = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT);
+        View tv = t.getView();
+        // tv.setBackgroundColor(getResources().getColor(id));
+        t.show();
+    }
 
+    //Get view Of Action Bar
+    public ViewGroup getActionBar(View view) {
+        try {
+            if (view instanceof ViewGroup) {
+                ViewGroup viewGroup = (ViewGroup) view;
 
+                if (viewGroup instanceof android.support.v7.widget.Toolbar) {
+                    return viewGroup;
+                }
+
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    ViewGroup actionBar = getActionBar(viewGroup.getChildAt(i));
+
+                    if (actionBar != null) {
+                        return actionBar;
+                    }
+                }
+            }
+        } catch (Exception e) {
+        }
+
+        return null;
+    }
 
     public class UserAdapter extends BaseAdapter {
         Users_ViewHolder user_modal;
@@ -584,17 +691,6 @@ public class SavingDatainSQLDB extends AppCompatActivity {
 
 
     }
-    //Customized Toast
-    public void showToast(String msg,int id){
-        Toast t=Toast.makeText(getApplicationContext(),msg + number.getText().toString(), Toast.LENGTH_SHORT);
-        View tv=t.getView();
-       // tv.setBackgroundColor(getResources().getColor(id));
-        t.show();
-    }
-
-
-
-
 
 
 }
